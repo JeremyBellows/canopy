@@ -52,20 +52,20 @@ let highlight = __highlight browser
 
 let suggestOtherSelectors = __suggestOtherSelectors browser
 
-let describe = puts
+let describe message = puts message
 
-let waitFor2 = __waitFor2 browser
+let waitFor2 message f = __waitFor2 browser message f
 
-let waitFor = __waitFor browser
+let waitFor f = __waitFor browser f
 
 //get elements
-let elements = __elements browser
+let elements selector = __elements browser selector
 
 let unreliableElements = __unreliableElements browser
 
 let unreliableElement  = __unreliableElement browser
 
-let element = __element browser
+let element selector = __element browser selector
 
 let elementWithin selector elem = __elementWithin browser selector elem
 
@@ -75,17 +75,17 @@ let elementsWithin selector elem = __elementsWithin browser selector elem
 
 let unreliableElementsWithin selector elem = __unreliableElementsWithin browser selector elem
 
-let someElement = __someElement browser
+let someElement selector = __someElement browser selector
 
 let someElementWithin selector elem = __someElementWithin browser selector elem
 
 let someParent elem = __someParent browser elem
 
-let nth = __nth browser
+let nth index selector = __nth browser index selector
 
-let first = __first browser
+let first selector = __first browser selector
 
-let last  = __last browser
+let last selector  = __last browser selector
 
 //read/write
 let ( << ) item text = __write browser item text
@@ -107,7 +107,7 @@ let up = Keys.Up
 let left = Keys.Left
 let right = Keys.Right
 
-let press = __press browser
+let press selector = __press browser selector
 
 //alerts
 let alert () = __alert browser
@@ -127,7 +127,7 @@ let ( *!= ) cssSelector value = __oneOfManyNotEqual browser cssSelector value
 
 let contains = __contains
 
-let count = __count browser
+let count selector count = __count browser selector count
 
 let elementsWithText = __elementsWithText browser
 
@@ -161,17 +161,17 @@ let check item = __check browser item
 let uncheck item = __uncheck browser item
 
 //hoverin
-let hover = __hover browser
+let hover selector = __hover browser selector
 
 //draggin
-let drag = __drag browser
+let drag selector = __drag browser selector
 
 let (-->) cssSelectorA cssSelectorB = drag cssSelectorA cssSelectorB
 
 //browser related
-let pin = __pin browser
+let pin direction = __pin browser direction
 
-let pinToMonitor = __pinToMonitor browser
+let pinToMonitor n = __pinToMonitor browser n
 
 let start b =
     browser <- __start b
@@ -179,11 +179,11 @@ let start b =
 
 let switchTo b = browser <- b
 
-let switchToTab = __switchToTab browser
+let switchToTab tab = __switchToTab browser tab
 
-let closeTab = __closeTab browser
+let closeTab tab = __closeTab browser tab
 
-let tile = __tile
+let tile browsers = __tile browsers
 
 let innerSize () = __innerSize browser
 
@@ -195,7 +195,7 @@ let quit browser' = __quit browser' browsers
 
 let currentUrl () = __currentUrl browser
 
-let on = __on browser
+let on page = __on browser page
 
 let ( !^ ) (u : string) = __url browser u
 
