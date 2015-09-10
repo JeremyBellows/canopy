@@ -13,8 +13,8 @@ let rec private last = function
     | _ -> failwith "Empty list."
 
 let mutable suites = [new suite()]
-let mutable todo = fun () -> ()
-let mutable skipped = fun () -> ()
+let mutable (todo : IWebDriver option -> unit) = fun _ -> ()
+let mutable skipped = fun _ -> ()
 
 let once f = (last suites).Once <- f
 let before f = (last suites).Before <- f
@@ -83,12 +83,12 @@ let failSuite (ex: Exception) (suite : suite) =
         reporter.testEnd test.Id 
     suite.Tests |> List.iter (fun test -> reportFailedTest ex test)
 
-let run () =
+let runSuites isParallel =
     reporter.suiteBegin()
     let stopWatch = new Diagnostics.Stopwatch()
     stopWatch.Start()      
     
-    let runtest (suite : suite) (test : Test) =
+    let runtest (suite : suite) (test : Test) (browser : IWebDriver option) =
         if failed = false then             
             reporter.testStart test.Id  
             if System.Object.ReferenceEquals(test.Func, todo) then 
@@ -99,7 +99,7 @@ let run () =
                 try
                     try
                         suite.Before ()
-                        test.Func ()
+                        test.Func browser
                     finally
                         suite.After ()
                     pass()
@@ -122,31 +122,66 @@ let run () =
     if suites |> List.exists (fun s -> s.Wips.IsEmpty = false) then
         suites <- suites |> List.filter (fun s -> s.Wips.IsEmpty = false || s.Always.IsEmpty = false)
 
-    suites
-    |> List.iter (fun s ->
-        if failed = false then
-            contextFailed <- false
-            if s.Context <> null then reporter.contextStart s.Context
-            try
-                s.Once ()
-            with 
-                | ex -> failSuite ex s
+    match isParallel with
+    | true -> 
+        suites 
+        |> List.toArray
+        |> Array.Parallel.iter (fun s ->
             if failed = false then
-                if s.Wips.IsEmpty = false then
-                    wipTest <- true
-                    let tests = s.Wips @ s.Always |> List.sortBy (fun t -> t.Number)
-                    tests |> List.iter (fun w -> runtest s w)
-                    wipTest <- false
-                else if s.Manys.IsEmpty = false then
-                    s.Manys |> List.iter (fun m -> runtest s m)
-                else
-                    let tests = s.Tests @ s.Always |> List.sortBy (fun t -> t.Number)
-                    tests |> List.iter (fun t -> runtest s t)
-            s.Lastly ()                  
+                contextFailed <- false
+                if s.Context <> null then reporter.contextStart s.Context
+                try
+                    s.Once ()
+                with 
+                    | ex -> failSuite ex s
+                if failed = false then
+                    let browser = Some(guts.__start configuration.defaultBrowser)
+                    if s.Wips.IsEmpty = false then
+                        wipTest <- true
+                        let tests = s.Wips @ s.Always |> List.sortBy (fun t -> t.Number)
+                        tests |> List.iter (fun w -> runtest s w browser)
+                        wipTest <- false
+                    else if s.Manys.IsEmpty = false then
+                        s.Manys |> List.iter (fun m -> runtest s m browser)
+                    else
+                        let tests = s.Tests @ s.Always |> List.sortBy (fun t -> t.Number)
+                        tests |> List.iter (fun t -> runtest s t browser)
+                    try
+                        browser.Value.Quit()
+                    with
+                    | ex -> reporter.describe ex.Message
+                s.Lastly ()                  
+                
 
-            if contextFailed = true then failedContexts <- failedContexts @ [s.Context]
-            if s.Context <> null then reporter.contextEnd s.Context
-    )
+                if contextFailed = true then failedContexts <- failedContexts @ [s.Context]
+                if s.Context <> null then reporter.contextEnd s.Context  
+        )
+    | false -> 
+        suites
+        |> List.iter (fun s ->
+            if failed = false then
+                contextFailed <- false
+                if s.Context <> null then reporter.contextStart s.Context
+                try
+                    s.Once ()
+                with 
+                    | ex -> failSuite ex s
+                if failed = false then
+                    if s.Wips.IsEmpty = false then
+                        wipTest <- true
+                        let tests = s.Wips @ s.Always |> List.sortBy (fun t -> t.Number)
+                        tests |> List.iter (fun w -> runtest s w None)
+                        wipTest <- false
+                    else if s.Manys.IsEmpty = false then
+                        s.Manys |> List.iter (fun m -> runtest s m None)
+                    else
+                        let tests = s.Tests @ s.Always |> List.sortBy (fun t -> t.Number)
+                        tests |> List.iter (fun t -> runtest s t None)
+                s.Lastly ()                  
+
+                if contextFailed = true then failedContexts <- failedContexts @ [s.Context]
+                if s.Context <> null then reporter.contextEnd s.Context
+        )
     
     history.save failedContexts
 
@@ -175,4 +210,9 @@ let runFor browsers =
                 once (fun _ -> switchTo browser)
                 suites <- suites @ currentSuites)
         | _ -> raise <| Exception "I dont know what you have given me"
-  
+
+let run () =
+    runSuites false
+
+let runParallel () =
+    runSuites true

@@ -31,3 +31,4 @@ let mutable writeToSelectWithOptionValue = true
 let mutable optimizeBySkippingIFrameCheck = false
 let mutable optimizeByDisablingCoverageReport = false
 let mutable showInfoDiv = true
+let mutable defaultBrowser = types.BrowserStartMode.Firefox

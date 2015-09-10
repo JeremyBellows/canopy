@@ -62,7 +62,7 @@ let toString (x:'a) =
     match FSharpValue.GetUnionFields(x, typeof<'a>) with
     | case, _ -> case.Name
 
-type Test (description: string, func : (unit -> unit), number : int) =
+type Test (description: string, func : (IWebDriver option -> unit), number : int) =
     member x.Description = description
     member x.Func = func
     member x.Number = number
