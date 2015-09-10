@@ -57,15 +57,16 @@ let private __swallowedJs (browser : IWebDriver) script = try __js browser scrip
 
 let __puts (browser : IWebDriver) text =
     reporter.write text
-    let escapedText = System.Web.HttpUtility.JavaScriptStringEncode(text)
-    let info = "
-        var infoDiv = document.getElementById('canopy_info_div');
-        if(!infoDiv) { infoDiv = document.createElement('div'); }
-        infoDiv.id = 'canopy_info_div';
-        infoDiv.setAttribute('style','position: absolute; border: 1px solid black; bottom: 0px; right: 0px; margin: 3px; padding: 3px; background-color: white; z-index: 99999; font-size: 20px; font-family: monospace; font-weight: bold;');
-        document.getElementsByTagName('body')[0].appendChild(infoDiv);
-        infoDiv.innerHTML = 'locating: " + escapedText + "';"
-    __swallowedJs browser info
+    if (showInfoDiv) then
+        let escapedText = System.Web.HttpUtility.JavaScriptStringEncode(text)
+        let info = "
+            var infoDiv = document.getElementById('canopy_info_div'); 
+            if(!infoDiv) { infoDiv = document.createElement('div'); } 
+            infoDiv.id = 'canopy_info_div'; 
+            infoDiv.setAttribute('style','position: absolute; border: 1px solid black; bottom: 0px; right: 0px; margin: 3px; padding: 3px; background-color: white; z-index: 99999; font-size: 20px; font-family: monospace; font-weight: bold;'); 
+            document.getElementsByTagName('body')[0].appendChild(infoDiv); 
+            infoDiv.innerHTML = 'locating: " + escapedText + "';"
+        __swallowedJs browser info
 
 let private __wait (browser : IWebDriver) timeout f =
     let wait = new WebDriverWait(browser, TimeSpan.FromSeconds(timeout))
@@ -621,7 +622,8 @@ let __start b =
     //also download IEDriverServer and place in c:\ or configure with ieDir
     //firefox just works
     //for phantomjs download it and put in c:\ or configure with phantomJSDir
-
+    //for Safari download it and put in c:\ or configure with safariDir
+    
     let browser =
         match b with
         | IE -> new IE.InternetExplorerDriver(ieDir) :> IWebDriver
@@ -638,6 +640,7 @@ let __start b =
         | FirefoxWithProfile profile -> new FirefoxDriver(profile) :> IWebDriver
         | FirefoxWithPath path -> new FirefoxDriver(Firefox.FirefoxBinary(path), Firefox.FirefoxProfile()) :> IWebDriver
         | FirefoxWithUserAgent userAgent -> __firefoxWithUserAgent userAgent
+        | Safari ->new Safari.SafariDriver() :> IWebDriver
         | PhantomJS ->
             autoPinBrowserRightOnLaunch <- false
             new PhantomJS.PhantomJSDriver(phantomJSDir) :> IWebDriver
@@ -652,8 +655,14 @@ let __start b =
     browser
 
 let __switchToTab (browser: IWebDriver) number =
-    let tabs = browser.WindowHandles;
-    browser.SwitchTo().Window(tabs.[(number - 1)]) |> ignore
+    __wait browser pageTimeout (fun _ ->
+        let number = number - 1
+        let tabs = browser.WindowHandles;
+        if tabs |> Seq.length >= number then
+            browser.SwitchTo().Window(tabs.[number]) |> ignore
+            true
+        else
+            false)    
 
 let __closeTab (browser: IWebDriver) number =
     __switchToTab browser number

@@ -154,3 +154,20 @@
 
 #### 0.9.29 - June 17 2015
 * Fix issue 203, using canopy for unit tests [Issue #203](https://github.com/lefthandedgoat/canopy/issues/203)
+
+#### 0.9.30 - July 30 2015
+* Updated to Selenium 2.47
+* Fix issue 205, making switchToTab more reliable [Issue #205](https://github.com/lefthandedgoat/canopy/issues/205)
+* Improve LiveHtmlReporter so that puts and describe will add ordered messages to the output
+* Improved behaviour for failing all tests if on failed.  Changed it to only fail all tests if the 'once' function fails
+
+#### 0.9.31 - August 18 2015
+* Fix issue 209, screenshot being taken too late in some cases [Issue #209](https://github.com/lefthandedgoat/canopy/issues/209)
+* Fix issue 210, text based selector with apostrophes were not working [Issue #205](https://github.com/lefthandedgoat/canopy/issues/210)
+
+#### 0.9.32 - August 25 2015
+* Accept PR adding better support for OSX and Safari.  Thanks to Pedro Ramirez! [Issue #211](https://github.com/lefthandedgoat/canopy/pull/211)
+
+#### 0.9.33 - September 9 2015
+* Fix bug were failing tests were marked as passed [Issue #212](https://github.com/lefthandedgoat/canopy/issues/212)
+* Make print info displayed in bottom right of page optional, thanks Jeremy Bellows! [Issue #213](https://github.com/lefthandedgoat/canopy/issues/213)

@@ -28,6 +28,7 @@ let aurora = FirefoxWithPath(@"C:\Program Files (x86)\Aurora\firefox.exe")
 let ie = IE
 let chrome = Chrome
 let phantomJS = PhantomJS
+let safari = Safari
 let phantomJSProxyNone = PhantomJSProxyNone
 
 let mutable browsers = []

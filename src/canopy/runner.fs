@@ -89,27 +89,28 @@ let run () =
     stopWatch.Start()      
     
     let runtest (suite : suite) (test : Test) =
-        if failed = false then            
-            try 
-                reporter.testStart test.Id  
-                if System.Object.ReferenceEquals(test.Func, todo) then 
-                    reporter.todo ()
-                else if System.Object.ReferenceEquals(test.Func, skipped) then 
-                    reporter.skip ()
-                else
+        if failed = false then             
+            reporter.testStart test.Id  
+            if System.Object.ReferenceEquals(test.Func, todo) then 
+                reporter.todo ()
+            else if System.Object.ReferenceEquals(test.Func, skipped) then 
+                reporter.skip ()
+            else
+                try
                     try
                         suite.Before ()
                         test.Func ()
                     finally
                         suite.After ()
                     pass()
-            with
-                | ex when failureMessage <> null && failureMessage = ex.Message -> pass()
-                | ex -> fail ex test.Id <| safelyGetUrl()
+                with
+                    | ex when failureMessage <> null && failureMessage = ex.Message -> pass()
+                    | ex -> fail ex test.Id <| safelyGetUrl()
+                
             reporter.testEnd test.Id 
         
         failureMessage <- null            
-
+        
     //run all the suites
     if runFailedContextsFirst = true then
         let failedContexts = history.get()
@@ -128,6 +129,9 @@ let run () =
             if s.Context <> null then reporter.contextStart s.Context
             try
                 s.Once ()
+            with 
+                | ex -> failSuite ex s
+            if failed = false then
                 if s.Wips.IsEmpty = false then
                     wipTest <- true
                     let tests = s.Wips @ s.Always |> List.sortBy (fun t -> t.Number)
@@ -138,9 +142,7 @@ let run () =
                 else
                     let tests = s.Tests @ s.Always |> List.sortBy (fun t -> t.Number)
                     tests |> List.iter (fun t -> runtest s t)
-                s.Lastly ()        
-            with 
-                | ex -> failSuite ex s                    
+            s.Lastly ()                  
 
             if contextFailed = true then failedContexts <- failedContexts @ [s.Context]
             if s.Context <> null then reporter.contextEnd s.Context
