@@ -188,7 +188,7 @@ let tile browsers = __tile browsers
 
 let innerSize () = __innerSize browser
 
-let resize = __resize browser
+let resize size = __resize browser size
 
 let rotate () = __rotate browser
 
