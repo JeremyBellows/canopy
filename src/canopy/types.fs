@@ -81,3 +81,8 @@ type suite () = class
     member val Always : Test list = [] with get, set
     member val IsParallel = false with get, set
 end
+
+
+type browserMessage =
+    | GetBrowser of AsyncReplyChannel<IWebDriver>
+    | Die of AsyncReplyChannel<unit>

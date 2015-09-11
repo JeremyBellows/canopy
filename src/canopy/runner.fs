@@ -124,6 +124,22 @@ let runSuites isParallel =
 
     match isParallel with
     | true -> 
+
+        let browserMailbox = MailboxProcessor<browserMessage>.Start(fun inbox -> 
+            let rec loop () =
+                async {
+                    let! msg = inbox.Receive()
+                    match msg with
+                    | GetBrowser syncChannel ->
+                        syncChannel.Reply (guts.__start configuration.defaultBrowser)
+                        return! loop ()
+                    | Die syncChannel ->
+                        syncChannel.Reply ()
+                        return ()
+                      }
+            loop ()
+        )
+
         suites 
         |> List.toArray
         |> Array.Parallel.iter (fun s ->
@@ -135,7 +151,7 @@ let runSuites isParallel =
                 with 
                     | ex -> failSuite ex s
                 if failed = false then
-                    let browser = Some(guts.__start configuration.defaultBrowser)
+                    let browser = Some(browserMessage.GetBrowser |> browserMailbox.PostAndReply)
                     if s.Wips.IsEmpty = false then
                         wipTest <- true
                         let tests = s.Wips @ s.Always |> List.sortBy (fun t -> t.Number)
@@ -154,8 +170,10 @@ let runSuites isParallel =
                 
 
                 if contextFailed = true then failedContexts <- failedContexts @ [s.Context]
-                if s.Context <> null then reporter.contextEnd s.Context  
+                if s.Context <> null then reporter.contextEnd s.Context                  
         )
+        browserMessage.Die |> browserMailbox.PostAndReply
+
     | false -> 
         suites
         |> List.iter (fun s ->
