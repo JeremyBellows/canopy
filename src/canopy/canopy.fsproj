@@ -52,12 +52,14 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="types.fs" />
+    <Compile Include="browserBuilder.fs"/>
     <Compile Include="reporters.fs" />
     <Compile Include="finders.fs" />
     <Compile Include="configuration.fs" />
     <Compile Include="levenshtein.fs" />
     <Compile Include="guts.fs" />
     <Compile Include="canopy.fs" />
+    <Compile Include="parallelCanopy.fs" />
     <Compile Include="history.fs" />
     <Compile Include="runner.fs" />
     <None Include="packages.config" />

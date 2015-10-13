@@ -48,7 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{3C3590B5
 		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "parallelTests", "tests\parallelTetss\parallelTests.fsproj", "{DD65F490-9EDC-48B1-842C-9553515CF17E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "parallelTests", "tests\parallelTests\parallelTests.fsproj", "{DD65F490-9EDC-48B1-842C-9553515CF17E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
