@@ -1,12 +1,18 @@
 // --------------------------------------------------------------------------------------
 // FAKE build script 
 // --------------------------------------------------------------------------------------
-#r @"packages/FAKE/tools/FakeLib.dll"
-open Fake
-open System
-open Fake.Core.TargetOperators
+#r "paket:
+nuget Fake.DotNet.AssemblyInfoFile
+nuget Fake.DotNet.MSBuild
+nuget Fake.DotNet.Fsi
+nuget Fake.IO.FileSystem
+nuget Fake.Tools.Git
+nuget Fake.Core.Target 
+nuget Fake.Core.ReleaseNotes //"
+#load "./.fake/build.fsx/intellisense.fsx"
 open Fake.IO.Globbing.Operators
-open Fake.IO.FileSystemOperators
+open Fake.Core.TargetOperators
+open Fake.DotNet
 
 // --------------------------------------------------------------------------------------
 // Project-specific details below
@@ -53,8 +59,7 @@ let gitName = "canopy"
 // --------------------------------------------------------------------------------------
 
 // Read additional information from the release notes document
-Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
-let release = Fake.Core.ReleaseNotes.parse (IO.File.ReadAllLines "RELEASE_NOTES.md")
+let release = Fake.Core.ReleaseNotes.parse (Fake.IO.File.read "RELEASE_NOTES.md")
 
 // Generate assembly info files with the right version & up-to-date information
 Fake.Core.Target.create "AssemblyInfo" (fun _ ->
@@ -101,50 +106,36 @@ Fake.Core.Target.create "Build" (fun _ ->
 Fake.Core.Target.create "RunTests" (fun _ ->
     !! testAssemblies 
     |> Seq.iter (fun testFile ->
-        let result =
-            ExecProcess 
-                (fun info -> info.FileName <- testFile) 
-                (System.TimeSpan.FromMinutes 5.)
-        if result <> 0 then failwith "Failed result from basictests"
+      Fake.Core.Command.ShellCommand(testFile)
+      |> Fake.Core.CreateProcess.fromCommand
+      |> Fake.Core.CreateProcess.ensureExitCodeWithMessage("Basic Tests failed")
+      |> Fake.Core.Proc.run
+      |> ignore
     )
 )
 
 // --------------------------------------------------------------------------------------
 // Generate the documentation
 
-let fakePath = "packages" @@ "FAKE" @@ "tools" @@ "FAKE.exe"
-let fakeStartInfo script workingDirectory args fsiargs environmentVars =
-    (fun (info: System.Diagnostics.ProcessStartInfo) ->
-        info.FileName <- System.IO.Path.GetFullPath fakePath
-        info.Arguments <- sprintf "%s --fsiargs -d:FAKE %s \"%s\"" args fsiargs script
-        info.WorkingDirectory <- workingDirectory
-        let setVar k v =
-            info.EnvironmentVariables.[k] <- v
-        for (k, v) in environmentVars do
-            setVar k v
-        setVar "MSBuild" msBuildExe
-        setVar "GIT" Git.CommandHelper.gitPath
-        setVar "FSI" fsiPath)
-
 /// Run the given buildscript with FAKE.exe
-let executeFAKEWithOutput workingDirectory script fsiargs envArgs =
-    let exitCode =
-        ExecProcessWithLambdas
-            (fakeStartInfo script workingDirectory "" fsiargs envArgs)
-            TimeSpan.MaxValue false ignore ignore
-    System.Threading.Thread.Sleep 1000
-    exitCode
+let executeFAKEWithOutput workingDirectory script fsiargs =
+  let (exitCode, exceptions) =
+    Fake.DotNet.Fsi.exec (fun p ->
+      { p with
+          TargetProfile = Fake.DotNet.Fsi.Profile.Netcore
+          WorkingDirectory = workingDirectory
+          ToolPath = Fake.DotNet.Fsi.FsiTool.Internal 
+      }) script fsiargs
+  exitCode
 
 // Documentation
 let buildDocumentationTarget fsiargs target =
     Fake.Core.Trace.trace (sprintf "Building documentation (%s), this could take some time, please wait..." target)
-    let exit = executeFAKEWithOutput "docs/tools" "generate.fsx" fsiargs ["target", target]
-    if exit <> 0 then
-        failwith "generating reference documentation failed"
-    ()
+    executeFAKEWithOutput "./docs/tools/" "./docs/tools/generate.fsx" fsiargs
+    |> ignore
 
 Fake.Core.Target.create "GenerateDocs" (fun _ ->
-    buildDocumentationTarget "-D:RELEASE -d:REFERENCE" "Default"
+    buildDocumentationTarget ["-D:RELEASE";"-d:REFERENCE"] "Default"
  )
 
 // --------------------------------------------------------------------------------------
