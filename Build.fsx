@@ -8,11 +8,11 @@ nuget Fake.DotNet.Fsi
 nuget Fake.IO.FileSystem
 nuget Fake.Tools.Git
 nuget Fake.Core.Target 
-nuget Fake.Core.ReleaseNotes //"
+nuget Fake.Core.ReleaseNotes 
+nuget FSharp.Formatting //"
 #load "./.fake/build.fsx/intellisense.fsx"
 open Fake.IO.Globbing.Operators
 open Fake.Core.TargetOperators
-open Fake.DotNet
 
 // --------------------------------------------------------------------------------------
 // Project-specific details below
@@ -117,6 +117,93 @@ Fake.Core.Target.create "RunTests" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Generate the documentation
 
+// --------------------------------------------------------------------------------------
+// Builds the documentation from `.fsx` and `.md` files in the 'docs/content' directory
+// (the generated documentation is stored in the 'docs/output' directory)
+// --------------------------------------------------------------------------------------
+
+// Binaries that have XML documentation (in a corresponding generated XML file)
+let referenceBinaries = [ "canopy.dll" ]
+    //[ "WebDriver.dll"; "WebDriver.Support.dll"; "Newtonsoft.Json.dll"; "SizSelCsZzz.dll"; "canopy.dll" ]
+// Web site location for the generated documentation
+let website = "/canopy"
+
+let githubLink = "https://github.com/lefthandedgoat/canopy"
+
+// Specify more information about your project
+let info =
+  [ "project-name", "canopy"
+    "project-author", "Chris Holt"
+    "project-summary", "A simple framework in f# on top of selenium for writing UI automation and tests."
+    "project-github", githubLink
+    "project-nuget", "https://www.nuget.org/packages/canopy/" ]
+
+// When called from 'build.fsx', use the public project URL as <root>
+// otherwise, use the current 'output' directory.
+#if RELEASE
+let root = website
+#else
+let root = "file://" + (__SOURCE_DIRECTORY__ + "/docs/output")
+#endif
+
+// Paths with template/source/output locations
+let bin        = __SOURCE_DIRECTORY__ + "/src/canopy/bin/Release/netstandard2.0"
+let content    = __SOURCE_DIRECTORY__ + "/docs/content"
+let output     = __SOURCE_DIRECTORY__ + "/docs/output"
+let files      = __SOURCE_DIRECTORY__ + "/docs/files"
+let templates  = __SOURCE_DIRECTORY__ + "/docs/tools/templates"
+let formatting = __SOURCE_DIRECTORY__ + "/packages/FSharp.Formatting"
+let docTemplate = formatting + "/templates/docpage.cshtml"
+
+// Where to look for *.csproj templates (in this order)
+let layoutRoots =
+  [ templates; formatting + "templates"
+    formatting + "templates/reference" ]
+
+// Copy static files and CSS + JS from F# Formatting
+let copyFiles () =
+  Fake.IO.Shell.copyRecursive files output true |> ignore 
+  // |> Log "Copying file: "
+  //TODO: I'm ignoring output for now until I can find a replacement for the original Fake Log function
+  Fake.IO.Directory.ensure (output + "/content")
+  Fake.IO.Shell.copyRecursive (formatting + "/styles") (output + "/content") true 
+  |> ignore
+    //|> Log "Copying styles and scripts: "
+
+// Build API reference from XML comments
+let buildReference () =
+  Fake.IO.Shell.cleanDir (output + "/reference")
+  let parameters = ("root", root)::info 
+  let sourceRepo = githubLink + "/tree/scaffold" // TODO: revert to "tree/master"
+  for lib in referenceBinaries do
+    FSharp.MetadataFormat.MetadataFormat.Generate
+      ( 
+      dllFile = bin + "/" + lib, 
+      outDir = output + "/reference", 
+      layoutRoots = layoutRoots, 
+      parameters = parameters,
+      sourceRepo = sourceRepo,
+      sourceFolder = __SOURCE_DIRECTORY__,
+      publicOnly = true,
+      libDirs = [__SOURCE_DIRECTORY__ + "/bin"]
+      )
+
+// Build documentation from `fsx` and `md` files in `docs/content`
+let buildDocumentation () =
+  let subdirs = System.IO.Directory.EnumerateDirectories(content, "*", System.IO.SearchOption.AllDirectories)
+  for dir in Seq.append [content] subdirs do
+    let sub = if dir.Length > content.Length then dir.Substring(content.Length + 1) else "."
+    FSharp.Literate.Literate.ProcessDirectory
+      ( dir, docTemplate, output + "/" + sub, replacements = ("root", root)::info,
+        layoutRoots = layoutRoots )
+
+// Generate
+let generateDocs () =
+  copyFiles()
+  buildDocumentation()
+  buildReference()
+
+
 /// Run the given buildscript with FAKE.exe
 let executeFAKEWithOutput workingDirectory script fsiargs =
   let (exitCode, exceptions) =
@@ -132,10 +219,10 @@ let executeFAKEWithOutput workingDirectory script fsiargs =
 let buildDocumentationTarget fsiargs target =
     Fake.Core.Trace.trace (sprintf "Building documentation (%s), this could take some time, please wait..." target)
     executeFAKEWithOutput "./docs/tools/" "./docs/tools/generate.fsx" fsiargs
-    |> ignore
 
 Fake.Core.Target.create "GenerateDocs" (fun _ ->
-    buildDocumentationTarget ["-D:RELEASE";"-d:REFERENCE"] "Default"
+     generateDocs ()
+    //buildDocumentationTarget ["-D:RELEASE";"-d:REFERENCE"] "Default"
  )
 
 // --------------------------------------------------------------------------------------
