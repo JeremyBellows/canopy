@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Upgrade 1.x to 2.x
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="f# web automation and testing library, built on top of Selenium (friendly to c# also)"/>
+    <meta name="author" content="Chris Holt"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/canopy/content/style.css" />
+    <script type="text/javascript" src="/canopy/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/lefthandedgoat/canopy">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/canopy/index.html">canopy</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1><a name="Upgrade-1-x-to-2-x" class="anchor" href="#Upgrade-1-x-to-2-x">Upgrade 1.x to 2.x</a></h1>
+<h2><a name="Breaking-changes" class="anchor" href="#Breaking-changes">Breaking changes</a></h2>
+<ul>
+<li>Removed coverage report support, made move to 2.0 more difficult and I don't think they were used</li>
+<li>Removed phantomjs support, the project is no longer updated because of chrome headless</li>
+<li>Removed writeToSelectWithOptionValue, old backwards compat flag</li>
+<li>Removed optimizeByDisablingCoverageReport, old optimization around coverage reports</li>
+<li>Changed default driver path from c:\ to executing directory</li>
+</ul>
+<h2><a name="Namespace-changes" class="anchor" href="#Namespace-changes">Namespace changes</a></h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">canopy</span>        <span class="k">-&gt;</span> <span class="id">canopy</span><span class="pn">.</span><span class="id">classic</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">runner</span> <span class="k">-&gt;</span> <span class="id">canopy</span><span class="pn">.</span><span class="id">runner</span><span class="pn">.</span><span class="id">classic</span> <span class="c">//no longer auto opened</span>
+
+<span class="id">canopy</span><span class="pn">.</span><span class="id">configuration</span> <span class="c">//no longer auto opened</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">reporters</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">screen</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">types</span>         <span class="c">//no longer auto opened</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">wait</span>          <span class="c">//no longer auto opened</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">finders</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">history</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">userAgents</span>
+
+<span class="id">canopy</span><span class="pn">.</span><span class="id">parallell</span><span class="pn">.</span><span class="id">functions</span> <span class="c">//new</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">parallell</span><span class="pn">.</span><span class="id">instanced</span> <span class="c">//new</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="Signature-changes" class="anchor" href="#Signature-changes">Signature changes</a></h2>
+<ul>
+<li>The signature for custom finders now requires an instance of IWebDriver (the browser) also</li>
+<li>From  <code>string -&gt; (By -&gt; ReadOnlyCollection&lt;IWebElement&gt;) -&gt; IWebElement list</code></li>
+<li>To <code>string -&gt; (By -&gt; ReadOnlyCollection&lt;IWebElement&gt;) -&gt; IWebDriver -&gt; IWebElement list</code></li>
+</ul>
+<h2><a name="Screen-management-changes" class="anchor" href="#Screen-management-changes">Screen management changes</a></h2>
+<ul>
+<li>Due to the upgrade to support .net Core canopy can no longer determine your resolution</li>
+<li>You will need to manually set the resolutions so things like <code>pin</code> work correctly</li>
+</ul>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">canopy</span><span class="pn">.</span><span class="id">screen</span><span class="pn">.</span><span class="id">screenWidth</span> <span class="k">&lt;-</span> <span class="n">3840</span>  <span class="c">//default 1920</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">screen</span><span class="pn">.</span><span class="id">screenHeight</span> <span class="k">&lt;-</span> <span class="n">2160</span> <span class="c">//default 1080</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">screen</span><span class="pn">.</span><span class="id">monitorCount</span> <span class="k">&lt;-</span> <span class="n">2</span>    <span class="c">//default 1</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="New-features" class="anchor" href="#New-features">New features</a></h2>
+<ul>
+<li>.net Standard 2.0 support</li>
+<li>Added parallel support in two styles in two new namespaces</li>
+</ul>
+<h2><a name="Parallel-testing" class="anchor" href="#Parallel-testing">Parallel testing</a></h2>
+<ul>
+<li>
+<p>Added parallel support in two styles in two new namespaces</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">canopy</span><span class="pn">.</span><span class="id">parallell</span><span class="pn">.</span><span class="id">functions</span>
+<span class="id">canopy</span><span class="pn">.</span><span class="id">parallell</span><span class="pn">.</span><span class="id">instanced</span>
+</code></pre></td>
+</tr>
+</table>
+</li>
+<li><p>See examples of function based tests: <a href="https://github.com/lefthandedgoat/canopy/blob/master/tests/paralleltests/functionsTests.fs">https://github.com/lefthandedgoat/canopy/blob/master/tests/paralleltests/functionsTests.fs</a></p></li>
+<li><p>See examples of instanced based tests: <a href="https://github.com/lefthandedgoat/canopy/blob/master/tests/paralleltests/instancedTests.fs">https://github.com/lefthandedgoat/canopy/blob/master/tests/paralleltests/instancedTests.fs</a></p></li>
+<li><p><code>canopy.runner.classic</code> does NOT support parallel tests.</p></li>
+<li>You should choose a unit test library that you like and supports this and write canopy tests in it</li>
+<li>In the future I may release a parallel friendly test runner for canopy that includes some features from the classic runner</li>
+<li>Parallel test running is HARD.  Your database is a global mutable variable and your tests may interfere with each other</li>
+<li>You will also need to understand how your test runner runs tests, as it may not run them in order</li>
+</ul>
+<h2><a name="Upgrading-from-net-4-5-2" class="anchor" href="#Upgrading-from-net-4-5-2">Upgrading from .net 4.5.2</a></h2>
+<ul>
+<li>In an real world code base I simply updated the project from 4.5.2 to 4.6.1, installed the .net core SDK, and it worked</li>
+<li>If you have problems please let me know in the github issues and I will see what I can do to repro and help</li>
+</ul>
+
+<div class="tip" id="fs1">namespace canopy</div>
+<div class="tip" id="fs2">module classic<br /><br />from canopy</div>
+<div class="tip" id="fs3">module types<br /><br />from canopy</div>
+<div class="tip" id="fs4">namespace canopy.runner</div>
+<div class="tip" id="fs5">module classic<br /><br />from canopy.runner</div>
+<div class="tip" id="fs6">namespace System</div>
+
+        </div>
+        <div class="span3">
+          <img src="/canopy/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">canopy</li>
+            <li><a href="/canopy/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/canopy">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/lefthandedgoat/canopy">Source Code on GitHub</a></li>
+            <li><a href="/canopy/license.html">License</a></li>
+            <li><a href="/canopy/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/canopy/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/canopy/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/lefthandedgoat/canopy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>

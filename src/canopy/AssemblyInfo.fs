@@ -4,14 +4,16 @@ open System.Reflection
 
 [<assembly: AssemblyTitleAttribute("canopy")>]
 [<assembly: AssemblyProductAttribute("canopy")>]
-[<assembly: AssemblyDescriptionAttribute("F# web testing framework")>]
-[<assembly: AssemblyVersionAttribute("2.1.1")>]
-[<assembly: AssemblyFileVersionAttribute("2.1.1")>]
+[<assembly: AssemblyDescriptionAttribute("f# web automation and testing library, built on top of Selenium (friendly to c# also)")>]
+[<assembly: AssemblyVersionAttribute("0.0.1")>]
+[<assembly: AssemblyFileVersionAttribute("0.0.1")>]
+[<assembly: AssemblyConfigurationAttribute("Release")>]
 do ()
 
 module internal AssemblyVersionInformation =
     let [<Literal>] AssemblyTitle = "canopy"
     let [<Literal>] AssemblyProduct = "canopy"
-    let [<Literal>] AssemblyDescription = "F# web testing framework"
-    let [<Literal>] AssemblyVersion = "2.1.1"
-    let [<Literal>] AssemblyFileVersion = "2.1.1"
+    let [<Literal>] AssemblyDescription = "f# web automation and testing library, built on top of Selenium (friendly to c# also)"
+    let [<Literal>] AssemblyVersion = "0.0.1"
+    let [<Literal>] AssemblyFileVersion = "0.0.1"
+    let [<Literal>] AssemblyConfiguration = "Release"

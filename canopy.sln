@@ -1,180 +1,100 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
-MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EE14AF5C-CE88-4A66-B7D1-1D6EF558A4F3}"
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "canopy", "src/canopy/canopy.fsproj", "{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}"
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "canopy.integration", "src/canopy.integration/canopy.integration.fsproj", "{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{01B72FCF-1989-44FA-A6B6-EAF0A7C06043}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csharptests", "tests/csharptests/csharptests.csproj", "{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}"
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "paralleltests", "tests/paralleltests/paralleltests.fsproj", "{D866A0A1-F599-48E8-8A52-06296198FF3C}"
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "basictests", "tests/basictests/basictests.fsproj", "{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{880D511C-2B00-4EE1-94B6-CA0FF93678A2}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{0AE82023-8F64-4981-BE0B-4DA8B2C8109F}"
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B98-5CED-492C-A5B7-A5B4F73CF142}"
 	ProjectSection(SolutionItems) = preProject
-		docs\tools\generate.fsx = docs\tools\generate.fsx
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
+		paket.references = paket.references
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{DD8309E0-9B03-4F96-BD3F-147107C62AE0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "canopy", "src\canopy\canopy.fsproj", "{F3DADC45-6E93-45A8-8366-E4DAC78CAF97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{BF60BC93-E09B-4E5F-9D85-95A519479D54}"
 	ProjectSection(SolutionItems) = preProject
-		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
+		README.md = README.md
+		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "files", "files", "{159D3E26-A3CC-43C4-B868-6635A25C5D70}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{83F16175-43B1-4C90-A1EE-8E351C33435D}"
 	ProjectSection(SolutionItems) = preProject
-		docs\files\canopy_orig.jpg = docs\files\canopy_orig.jpg
-		docs\files\canopy_small.jpg = docs\files\canopy_small.jpg
-		docs\files\reporttemplate.html = docs\files\reporttemplate.html
-		docs\files\reporttemplatep.html = docs\files\reporttemplatep.html
+		docsrc\tools\generate.fsx = docsrc\tools\generate.fsx
+		docsrc\tools\templates\template.cshtml = docsrc\tools\templates\template.cshtml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{A352CC44-6E5E-4114-AB29-C292B9BB7082}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{8E6D5255-776D-4B61-85F9-73C37AA1FB9A}"
 	ProjectSection(SolutionItems) = preProject
-		docs\files\img\console.png = docs\files\img\console.png
-		docs\files\img\coverage.png = docs\files\img\coverage.png
-		docs\files\img\installCanopy.png = docs\files\img\installCanopy.png
-		docs\files\img\livehtmlreport.png = docs\files\img\livehtmlreport.png
-		docs\files\img\logo.jpg = docs\files\img\logo.jpg
-		docs\files\img\newProject.png = docs\files\img\newProject.png
-		docs\files\img\profile.png = docs\files\img\profile.png
-		docs\files\img\run.png = docs\files\img\run.png
+		docsrc\content\index.fsx = docsrc\content\index.fsx
+		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testpages", "testpages", "{35AFA189-B128-4A38-A40D-D250EF771B36}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED8079DD-2B06-4030-9F0F-DC548F98E1C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{078A9C52-DDC1-46F4-9235-9E6C89C87AFD}"
 	ProjectSection(SolutionItems) = preProject
-		docs\files\testpages\alert.html = docs\files\testpages\alert.html
-		docs\files\testpages\autocomplete.html = docs\files\testpages\autocomplete.html
-		docs\files\testpages\count.html = docs\files\testpages\count.html
-		docs\files\testpages\ctrlClick.html = docs\files\testpages\ctrlClick.html
-		docs\files\testpages\displayed.html = docs\files\testpages\displayed.html
-		docs\files\testpages\doubleClick.html = docs\files\testpages\doubleClick.html
-		docs\files\testpages\elementWithin.html = docs\files\testpages\elementWithin.html
-		docs\files\testpages\home.html = docs\files\testpages\home.html
-		docs\files\testpages\iframe1.html = docs\files\testpages\iframe1.html
-		docs\files\testpages\iframe2.html = docs\files\testpages\iframe2.html
-		docs\files\testpages\index.html = docs\files\testpages\index.html
-		docs\files\testpages\noClickTilVisible.html = docs\files\testpages\noClickTilVisible.html
-		docs\files\testpages\notDisplayed.html = docs\files\testpages\notDisplayed.html
-		docs\files\testpages\parent.html = docs\files\testpages\parent.html
-		docs\files\testpages\readonly.html = docs\files\testpages\readonly.html
-		docs\files\testpages\ryansError.html = docs\files\testpages\ryansError.html
-		docs\files\testpages\sandbox.html = docs\files\testpages\sandbox.html
-		docs\files\testpages\selectOptions.html = docs\files\testpages\selectOptions.html
-		docs\files\testpages\waitFor.html = docs\files\testpages\waitFor.html
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{E14871FF-5F1A-47F9-97B1-FE8E2732FABD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{7C6D08E7-3EAC-4335-8F4B-252C193C27C9}"
 	ProjectSection(SolutionItems) = preProject
-		docs\content\actions.fsx = docs\content\actions.fsx
-		docs\content\assertions.fsx = docs\content\assertions.fsx
-		docs\content\configuration.fsx = docs\content\configuration.fsx
-		docs\content\index.fsx = docs\content\index.fsx
-		docs\content\reporting.fsx = docs\content\reporting.fsx
-		docs\content\testing.fsx = docs\content\testing.fsx
-		docs\content\upgrade1to2.fsx = docs\content\upgrade1to2.fsx
+		.travis.yml = .travis.yml
+		appveyor.yml = appveyor.yml
+		build.cmd = build.cmd
+		build.fsx = build.fsx
+		build.proj = build.proj
+		build.sh = build.sh
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{481AC6B2-C46E-4E47-BF16-5A18C0AB532C}"
-	ProjectSection(SolutionItems) = preProject
-		Build.fsx = Build.fsx
-	EndProjectSection
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "canopy.integration", "src\canopy.integration\canopy.integration.fsproj", "{62539172-7987-4BEA-A0B8-68DE60BA09E6}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "basictests", "tests\basictests\basictests.fsproj", "{6FB19CBF-BEC2-4251-BFA1-B3E276642297}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "csharptests", "tests\csharptests\csharptests.csproj", "{5FA50953-F2A7-45AB-830E-9C3D6E9DEFC6}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "paralleltests", "tests\paralleltests\paralleltests.fsproj", "{6278AB74-AF96-4105-8290-45919554034F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Debug|x64.Build.0 = Debug|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Debug|x86.Build.0 = Debug|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Release|x64.ActiveCfg = Release|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Release|x64.Build.0 = Release|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Release|x86.ActiveCfg = Release|Any CPU
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1}.Release|x86.Build.0 = Release|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Debug|x64.Build.0 = Debug|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Debug|x86.Build.0 = Debug|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Release|x64.ActiveCfg = Release|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Release|x64.Build.0 = Release|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Release|x86.ActiveCfg = Release|Any CPU
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E}.Release|x86.Build.0 = Release|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Debug|x64.Build.0 = Debug|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Debug|x86.Build.0 = Debug|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Release|x64.ActiveCfg = Release|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Release|x64.Build.0 = Release|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Release|x86.ActiveCfg = Release|Any CPU
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222}.Release|x86.Build.0 = Release|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Debug|x64.Build.0 = Debug|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Debug|x86.Build.0 = Debug|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Release|x64.ActiveCfg = Release|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Release|x64.Build.0 = Release|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Release|x86.ActiveCfg = Release|Any CPU
-		{D866A0A1-F599-48E8-8A52-06296198FF3C}.Release|x86.Build.0 = Release|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Debug|x64.Build.0 = Debug|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Debug|x86.Build.0 = Debug|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Release|x64.ActiveCfg = Release|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Release|x64.Build.0 = Release|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Release|x86.ActiveCfg = Release|Any CPU
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C}.Release|x86.Build.0 = Release|Any CPU
+		{F3DADC45-6E93-45A8-8366-E4DAC78CAF97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3DADC45-6E93-45A8-8366-E4DAC78CAF97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3DADC45-6E93-45A8-8366-E4DAC78CAF97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3DADC45-6E93-45A8-8366-E4DAC78CAF97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62539172-7987-4BEA-A0B8-68DE60BA09E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62539172-7987-4BEA-A0B8-68DE60BA09E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62539172-7987-4BEA-A0B8-68DE60BA09E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62539172-7987-4BEA-A0B8-68DE60BA09E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FB19CBF-BEC2-4251-BFA1-B3E276642297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB19CBF-BEC2-4251-BFA1-B3E276642297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB19CBF-BEC2-4251-BFA1-B3E276642297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB19CBF-BEC2-4251-BFA1-B3E276642297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FA50953-F2A7-45AB-830E-9C3D6E9DEFC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FA50953-F2A7-45AB-830E-9C3D6E9DEFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FA50953-F2A7-45AB-830E-9C3D6E9DEFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FA50953-F2A7-45AB-830E-9C3D6E9DEFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6278AB74-AF96-4105-8290-45919554034F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6278AB74-AF96-4105-8290-45919554034F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6278AB74-AF96-4105-8290-45919554034F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6278AB74-AF96-4105-8290-45919554034F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2C3AAFE0-7840-4BB9-B0AB-AA70B3B0B0A1} = {EE14AF5C-CE88-4A66-B7D1-1D6EF558A4F3}
-		{E764022F-52E2-4C86-9D1F-AFCFDA22C20E} = {EE14AF5C-CE88-4A66-B7D1-1D6EF558A4F3}
-		{0AD2A734-0C6B-4E22-98BA-7BB0B7BBD222} = {01B72FCF-1989-44FA-A6B6-EAF0A7C06043}
-		{D866A0A1-F599-48E8-8A52-06296198FF3C} = {01B72FCF-1989-44FA-A6B6-EAF0A7C06043}
-		{42CDC11A-1229-4C68-B6DF-EF04526A8B5C} = {01B72FCF-1989-44FA-A6B6-EAF0A7C06043}
-		{0AE82023-8F64-4981-BE0B-4DA8B2C8109F} = {880D511C-2B00-4EE1-94B6-CA0FF93678A2}
-		{DD8309E0-9B03-4F96-BD3F-147107C62AE0} = {0AE82023-8F64-4981-BE0B-4DA8B2C8109F}
-		{159D3E26-A3CC-43C4-B868-6635A25C5D70} = {880D511C-2B00-4EE1-94B6-CA0FF93678A2}
-		{A352CC44-6E5E-4114-AB29-C292B9BB7082} = {159D3E26-A3CC-43C4-B868-6635A25C5D70}
-		{35AFA189-B128-4A38-A40D-D250EF771B36} = {159D3E26-A3CC-43C4-B868-6635A25C5D70}
-		{E14871FF-5F1A-47F9-97B1-FE8E2732FABD} = {880D511C-2B00-4EE1-94B6-CA0FF93678A2}
+		{83F16175-43B1-4C90-A1EE-8E351C33435D} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
+		{8E6D5255-776D-4B61-85F9-73C37AA1FB9A} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
+		{6FB19CBF-BEC2-4251-BFA1-B3E276642297} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{5FA50953-F2A7-45AB-830E-9C3D6E9DEFC6} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{6278AB74-AF96-4105-8290-45919554034F} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B95258A8-5DB1-4AF1-93D9-BB7B81925831}
+		SolutionGuid = {F241EBD2-D235-4AC4-BF65-F8AA4C161275}
 	EndGlobalSection
 EndGlobal

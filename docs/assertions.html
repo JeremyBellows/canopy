@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Assertions
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="f# web automation and testing library, built on top of Selenium (friendly to c# also)"/>
+    <meta name="author" content="Chris Holt"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/canopy/content/style.css" />
+    <script type="text/javascript" src="/canopy/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/lefthandedgoat/canopy">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/canopy/index.html">canopy</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1><a name="Assertions" class="anchor" href="#Assertions">Assertions</a></h1>
+<h2><a name="equals" class="anchor" href="#equals">== (equals)</a></h2>
+<p>Assert that the element on the left is equal to the value on the right.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;#firstName&quot;</span> <span class="o">==</span> <span class="s">&quot;Alex&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="does-not-equal" class="anchor" href="#does-not-equal">!= (does not equal)</a></h2>
+<p>Assert that the element on the left is not equal to the value on the right.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;#firstName&quot;</span> <span class="o">!=</span> <span class="s">&quot;Tom&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="aliased-as-is" class="anchor" href="#aliased-as-is">=== (aliased as is)</a></h2>
+<p>Assert that the value on the left is equal to the value on right.
+* Note: does not use retry-ability.  Equivalent to Assert.Equals.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;Not a selector&quot;</span> <span class="o">===</span> <span class="s">&quot;Not a selector&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="one-of-many-equals" class="anchor" href="#one-of-many-equals">*= (one of many equals)</a></h2>
+<p>Assert that at least one element in a list equals a value.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;.todoItem&quot;</span> <span class="o">*=</span> <span class="s">&quot;Buy milk&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="none-equals" class="anchor" href="#none-equals">*!= (none equals)</a></h2>
+<p>Assert that none of the items in a list equals a value.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;.todoItem&quot;</span> <span class="o">*!=</span> <span class="s">&quot;Sell everything&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="contains" class="anchor" href="#contains">contains</a></h2>
+<p>Assert that one string contains another.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">contains</span> <span class="s">&quot;Log&quot;</span> <span class="pn">(</span><span class="id">read</span> <span class="s">&quot;#logout&quot;</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="containsInsensitive" class="anchor" href="#containsInsensitive">containsInsensitive</a></h2>
+<p>Assert that one string contains (case insensitive) another.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">containsInsensitive</span> <span class="s">&quot;Log&quot;</span> <span class="pn">(</span><span class="id">read</span> <span class="s">&quot;#logout&quot;</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="notContains" class="anchor" href="#notContains">notContains</a></h2>
+<p>Assert that one string does not contains another.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">notContains</span> <span class="s">&quot;Hello Bob!&quot;</span> <span class="pn">(</span><span class="id">read</span> <span class="s">&quot;#name&quot;</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="count" class="anchor" href="#count">count</a></h2>
+<p>Assert there are <code>X</code> items of given css selector.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">count</span> <span class="s">&quot;.todoItem&quot;</span> <span class="n">5</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="regex-match" class="anchor" href="#regex-match">=~ (regex match)</a></h2>
+<p>Assert that an element <code>regex</code> matches a value.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;#lastName&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Gray&quot;</span>
+<span class="s">&quot;#lastName&quot;</span> <span class="o">=~</span> <span class="s">&quot;Gr[ae]y&quot;</span>
+<span class="s">&quot;#lastName&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Grey&quot;</span>
+<span class="s">&quot;#lastName&quot;</span> <span class="o">=~</span> <span class="s">&quot;Gr[ae]y&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="regex-match-1" class="anchor" href="#regex-match-1">!=~ (regex match)</a></h2>
+<p>Assert that an element does not <code>regex</code> match a value.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;#lastName&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Gr0y&quot;</span>
+<span class="s">&quot;#lastName&quot;</span> <span class="o">!=~</span> <span class="s">&quot;Gr[ae]y&quot;</span>
+<span class="s">&quot;#lastName&quot;</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Gr1y&quot;</span>
+<span class="s">&quot;#lastName&quot;</span> <span class="o">!=~</span> <span class="s">&quot;Gr[ae]y&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="one-of-many-regex-match" class="anchor" href="#one-of-many-regex-match">*~ (one of many regex match)</a></h2>
+<p>Assert that one of many element <code>regex</code> matches a value.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;#colors li&quot;</span> <span class="o">*~</span> <span class="s">&quot;gr[ea]y&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="on" class="anchor" href="#on">on</a></h2>
+<p>Assert that the browser is currently on a url. Falls back to using <code>String.Contains</code> after page timeout.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">url</span> <span class="s">&quot;https://duckduckgo.com/?q=canopy+f%23&quot;</span>
+<span class="id">on</span> <span class="s">&quot;https://duckduckgo.com/?q&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="onn" class="anchor" href="#onn">onn</a></h2>
+<p>Same as <code>on</code> but does not fall back to using <code>String.Contains</code>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">url</span> <span class="s">&quot;https://duckduckgo.com/about&quot;</span>
+<span class="id">onn</span> <span class="s">&quot;https://duckduckgo.com/about&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="selected" class="anchor" href="#selected">selected</a></h2>
+<p>Assert that a radio or checkbox is selected.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">selected</span> <span class="s">&quot;#yes&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="deselected" class="anchor" href="#deselected">deselected</a></h2>
+<p>Assert that a radio or checkbox is not selected.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">deselected</span> <span class="s">&quot;#yes&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="displayed" class="anchor" href="#displayed">displayed</a></h2>
+<p>Assert that an element is displayed on the screen. (Note:  Will not walk up the dom.  If a parent container is hidden this may give the wrong results, try adding :visible to selector)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">displayed</span> <span class="s">&quot;#modal&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="notDisplayed" class="anchor" href="#notDisplayed">notDisplayed</a></h2>
+<p>Assert that an element is not displayed on the screen. (Note:  Will not walk up the dom.  If a parent container is hidden this may give the wrong results, try adding :visible to selector)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">notDisplayed</span> <span class="s">&quot;#modal&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="enabled" class="anchor" href="#enabled">enabled</a></h2>
+<p>Assert that an element is enabled.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">enabled</span> <span class="s">&quot;#button&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="disabled" class="anchor" href="#disabled">disabled</a></h2>
+<p>Assert that an element is not enabled.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">disabled</span> <span class="s">&quot;#button&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="fadedIn" class="anchor" href="#fadedIn">fadedIn</a></h2>
+<p>Returns true/false if element has finished fading in and is shown.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="id">isShown</span> <span class="o">=</span> <span class="pn">(</span><span class="id">fadedIn</span> <span class="s">&quot;#message&quot;</span><span class="pn">)</span><span class="pn">(</span><span class="pn">)</span>
+<span class="id">waitFor</span> <span class="o">&lt;|</span> <span class="id">fadedIn</span> <span class="s">&quot;#message&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+
+<div class="tip" id="fs1">namespace canopy</div>
+<div class="tip" id="fs2">namespace canopy.runner</div>
+<div class="tip" id="fs3">namespace System</div>
+<div class="tip" id="fs4">val isShown : obj</div>
+
+        </div>
+        <div class="span3">
+          <img src="/canopy/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">canopy</li>
+            <li><a href="/canopy/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/canopy">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/lefthandedgoat/canopy">Source Code on GitHub</a></li>
+            <li><a href="/canopy/license.html">License</a></li>
+            <li><a href="/canopy/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/canopy/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/canopy/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/lefthandedgoat/canopy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>

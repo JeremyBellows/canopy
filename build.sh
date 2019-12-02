@@ -1,18 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# to properly set Travis permissions: https://stackoverflow.com/questions/33820638/travis-yml-gradlew-permission-denied
+# git update-index --chmod=+x fake.sh
+# git commit -m "permission access for travis"
 
-mono .paket/paket.exe restore -v
-exit_code=$?
-if [ $exit_code -ne 0 ]; then
-	exit $exit_code
+set -eu
+set -o pipefail
+
+dotnet restore build.proj
+
+if [ ! -f build.fsx ]; then
+    fake run init.fsx
 fi
 
-#workaround assembly resolution issues in build.fsx
-export FSHARPI=`which fsharpi`
-cat - > fsharpi <<"EOF"
-#!/bin/bash
-libdir=$PWD/packages/FAKE/tools/
-$FSHARPI --lib:$libdir $@
-EOF
-chmod +x fsharpi
-mono packages/FAKE/tools/FAKE.exe Build.fsx $@
-rm fsharpi
+fake build $@

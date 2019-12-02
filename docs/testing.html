@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Testing
+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="f# web automation and testing library, built on top of Selenium (friendly to c# also)"/>
+    <meta name="author" content="Chris Holt"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/canopy/content/style.css" />
+    <script type="text/javascript" src="/canopy/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/lefthandedgoat/canopy">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/canopy/index.html">canopy</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+<h1><a name="Testing" class="anchor" href="#Testing">Testing</a></h1>
+<h2><a name="run" class="anchor" href="#run">run</a></h2>
+<p>Starts test suite after is defined.  Usually at the bottom of your Program.fs</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">run</span><span class="pn">(</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="runFor" class="anchor" href="#runFor">runFor</a></h2>
+<p>Starts test suite and runs the suite with each of the listed browsers.  Usually at the bottom of your Program.fs</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">runFor</span> <span class="pn">[</span><span class="id">chrome</span><span class="pn">;</span> <span class="id">firefox</span><span class="pn">;</span> <span class="id">ie</span><span class="pn">]</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="context" class="anchor" href="#context">context</a></h2>
+<p>Define the context of the tests. A default context is defined and used if one is not provided.
+You can have as many contexts as you like. Each context gets a new once/before/after/lastly function.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">context</span> <span class="s">&quot;Login page tests&quot;</span>
+<span class="c">//some tests</span>
+
+<span class="id">context</span> <span class="s">&quot;Search page tests&quot;</span>
+<span class="c">//different tests</span>
+
+<span class="id">context</span> <span class="s">&quot;Reset password page tests&quot;</span>
+<span class="c">//different tests</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="once" class="anchor" href="#once">once</a></h2>
+<p>Function that is run once time at the beginning of a test suite. (per context)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">once</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="pn">(</span><span class="pn">)</span><span class="c">//do this one time at the beginning of the most recently defined context</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="before" class="anchor" href="#before">before</a></h2>
+<p>Function that is run before each test in a context. (per context)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">before</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="pn">(</span><span class="pn">)</span><span class="c">//do this before every test of the most recently defined context</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="after" class="anchor" href="#after">after</a></h2>
+<p>Function that is run after each test in a context. (per context)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">after</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="pn">(</span><span class="pn">)</span><span class="c">//do this after every test of the most recently defined context</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="lastly" class="anchor" href="#lastly">lastly</a></h2>
+<p>Function that is run once at the end of a context. (per context)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">lastly</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="pn">(</span><span class="pn">)</span><span class="c">//do this after the very last test of the most recently defined context</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="onPass" class="anchor" href="#onPass">onPass</a></h2>
+<p>Function that is run after a test passes. (per context)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">onPass</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="pn">(</span><span class="pn">)</span><span class="c">//do this after a test passes</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="onFail" class="anchor" href="#onFail">onFail</a></h2>
+<p>Function that is run after a test fails. (per context)</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">onFail</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="pn">(</span><span class="pn">)</span><span class="c">//do this after a test fails</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="test" class="anchor" href="#test">test</a></h2>
+<p>Standard test definition (name defined automatically by the test number eg: Test #1).</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">test</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="amp-amp-amp-named-test-aliased-as-ntest" class="anchor" href="#amp-amp-amp-named-test-aliased-as-ntest">&amp;&amp;&amp; (named test, aliased as ntest)</a></h2>
+<p>Standard test definition with a name.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;go somewhere, do some stuff, assert&quot;</span> <span class="o">&amp;&amp;&amp;</span> <span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="c">//Or</span>
+<span class="id">ntest</span> <span class="s">&quot;go somewhere, do some stuff, assert&quot;</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="amp-amp-amp-amp-work-in-progress-aliased-as-wip" class="anchor" href="#amp-amp-amp-amp-work-in-progress-aliased-as-wip">&amp;&amp;&amp;&amp; (work in progress, aliased as wip)</a></h2>
+<p>Used for debugging. Test runs slower and highlights the elements that it is interacting with to help debug.
+If one test is marked wip, only wip tests are ran. Other tests are skipped.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//this test is run slow and only with other tests marked as wip</span>
+<span class="s">&quot;go somewhere, do some stuff, assert&quot;</span> <span class="o">&amp;&amp;&amp;&amp;</span> <span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="c">//Or</span>
+<span class="id">wip</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="amp-amp-skip-aliased-as-xtest" class="anchor" href="#amp-amp-skip-aliased-as-xtest">&amp;&amp;! (skip, aliased as xtest)</a></h2>
+<p>Do not run a test.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//skipped</span>
+<span class="s">&quot;go somewhere, do some stuff, assert&quot;</span> <span class="o">&amp;&amp;!</span> <span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="c">//Or</span>
+<span class="id">xtest</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="amp-amp-amp-amp-amp-always-run-in-both-standard-and-wip-modes" class="anchor" href="#amp-amp-amp-amp-amp-always-run-in-both-standard-and-wip-modes">&amp;&amp;&amp;&amp;&amp; (always run, in both standard and wip modes)</a></h2>
+<p>Test will always be run.  If some tests are marked work in progress, tests marked as always will also run.
+The test will run slow with wip tests, but run at normal speed when there are no wip tests.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">//this test is run slow with wip test and regular speed with standard tests, test will always run.</span>
+<span class="s">&quot;go somewhere, do some stuff, assert&quot;</span> <span class="o">&amp;&amp;&amp;&amp;&amp;</span> <span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="many" class="anchor" href="#many">many</a></h2>
+<p>Run a single test X times. Helps with troubleshooting tests that sometimes fail.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">many</span> <span class="n">20</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="nmany" class="anchor" href="#nmany">nmany</a></h2>
+<p>Run a single named test X times. Helps with troubleshooting tests that sometimes fail.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="id">nmany</span> <span class="n">20</span> <span class="s">&quot;description&quot;</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">_</span> <span class="k">-&gt;</span>
+    <span class="c">//go somewhere</span>
+    <span class="c">//interact with page</span>
+    <span class="c">//assert</span>
+    <span class="pn">(</span><span class="pn">)</span>
+<span class="pn">)</span>
+</code></pre></td>
+</tr>
+</table>
+<h2><a name="todo" class="anchor" href="#todo">todo</a></h2>
+<p>Mark a test as todo to fill in later. LiveHtmlReporter will mark todo tests in the output.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="s">&quot;go somewhere, do some stuff, assert&quot;</span> <span class="o">&amp;&amp;&amp;</span> <span class="id">todo</span>
+</code></pre></td>
+</tr>
+</table>
+
+<div class="tip" id="fs1">namespace canopy</div>
+<div class="tip" id="fs2">namespace canopy.runner</div>
+<div class="tip" id="fs3">namespace System</div>
+
+        </div>
+        <div class="span3">
+          <img src="/canopy/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">canopy</li>
+            <li><a href="/canopy/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/canopy">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/lefthandedgoat/canopy">Source Code on GitHub</a></li>
+            <li><a href="/canopy/license.html">License</a></li>
+            <li><a href="/canopy/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/canopy/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/canopy/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/lefthandedgoat/canopy"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
