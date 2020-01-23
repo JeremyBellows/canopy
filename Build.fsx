@@ -216,7 +216,11 @@ let info =
 
 let root = website
 
-let referenceBinaries = []
+let referenceBinaries = [
+  "/canopy/netstandard2.0/canopy.dll" 
+  //Commented out for now. Program having troubles with this path and stacktrace isn't clear
+  //"/canopy.integration/netstandard2.0/canopy.integration.dll"
+]
 
 let layoutRootsAll = new System.Collections.Generic.Dictionary<string, string list>()
 layoutRootsAll.Add("en",[   templates;
@@ -231,28 +235,35 @@ Target.create "ReferenceDocs" (fun _ ->
             referenceBinaries
             |> List.map (fun b -> bin @@ b)
 
-        let conventionBased =
-            DirectoryInfo.getSubDirectories <| DirectoryInfo bin
-            |> Array.collect (fun d ->
-                let name, dInfo =
-                    let net45Bin =
-                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
-                    let net47Bin =
-                        DirectoryInfo.getSubDirectories d |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
-                    if net45Bin.Length > 0 then
-                        d.Name, net45Bin.[0]
-                    else
-                        d.Name, net47Bin.[0]
+        //let conventionBased =
+        //    DirectoryInfo.getSubDirectories <| DirectoryInfo bin
+        //    |> Array.collect (fun d ->
+        //        let name, dInfo =
+        //            let net45Bin =
+        //                let test = DirectoryInfo.getSubDirectories d 
+        //                test |> Array.filter(fun x -> x.FullName.ToLower().Contains("net45"))
+        //            let net47Bin =
+        //                DirectoryInfo.getSubDirectories d 
+        //                |> Array.filter(fun x -> x.FullName.ToLower().Contains("net47"))
+        //            if net45Bin.Length > 0 then
+        //                d.Name, net45Bin.[0]
+        //            else
+        //                d.Name, net47Bin.[0]
 
-                dInfo.GetFiles()
-                |> Array.filter (fun x ->
-                    x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
-                |> Array.map (fun x -> x.FullName)
-                )
-            |> List.ofArray
+        //        let files = dInfo.GetFiles()
+        //        if files |> Array.isEmpty then
+        //          Array.empty
+        //        else
+        //          files 
+        //          |> Array.filter (fun x ->
+        //              x.Name.ToLower() = (sprintf "%s.dll" name).ToLower())
+        //          |> Array.map (fun x -> x.FullName)
+        //          )
+        //          |> List.ofArray
+        
+        //conventionBased @ manuallyAdded
 
-        conventionBased @ manuallyAdded
-
+        manuallyAdded
     binaries()
     |> FSFormatting.createDocsForDlls (fun args ->
         { args with
